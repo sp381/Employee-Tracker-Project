@@ -15,5 +15,9 @@ VALUES
 (5, "Sales Rep", 100000, 3),
 (6, "Sales Assistant", 65000, 3);
 
-
-
+INSERT INTO employee(id, first_name, last_name, role_id, manager_id)
+VALUES
+(1, "sarah", "powell", 1, NULL),
+(2, "bob", "jones", 2, 1),
+(3, "eric", "martin", 2, 2),
+(4, "greg", "long", 3, 1);
