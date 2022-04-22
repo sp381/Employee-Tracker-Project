@@ -20,8 +20,8 @@ connection.connect((err) => {
 // Create a function to view, add and update information
 function employeeTracker() { 
     inquirer.prompt({
-        name: 'Choices',
         type: 'list',
+        name: 'Choices',
         message: 'Choose from the Following Options: ',
         choices: [
             'View All Departments',
@@ -33,22 +33,44 @@ function employeeTracker() {
             'Update an Employee Role',
             'Exit'
         ]
-    }).then(answers => {
-        switch (answers.action) {
+    }).then(responses => {
+        switch (responses.action) {
             case 'View All Departments':
-                viewDepartments();
+                viewDepartment();
+                employeeTracker();
                 break;
         
             case 'View All Roles':
                 viewRoles();
+                employeeTracker();
                 break;
 
             case 'View All Employees':
                 viewEmployees();
+                employeeTracker();
                 break; 
 
+            // Start new case "Add"
             case 'Add A Department':
-                addDepartment();
+                inquirer
+                .prompt ([
+                    {
+                        type: 'input',
+                        name: 'department',
+                        message: 'Add the department here: ',
+                        validate: responses => {
+                            if (responses) {
+                                return true;
+                            } else {
+                                console.log('Please enter the department you would like to add.');
+                                return false;
+                            }
+                        },
+                    },
+                ]).then(answers => {
+                    addDepartment(answers.Department);
+                    employeeTracker();
+                })
                 break;  
                 
             case 'Add A Role':
@@ -63,5 +85,8 @@ function employeeTracker() {
                 updateEmployee();
                 break;
         }
+
+
     });
 }
+employeeTracker()
