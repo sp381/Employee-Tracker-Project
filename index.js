@@ -182,7 +182,7 @@ function employeeTracker() {
 
 // View All Departments 
 function viewDepartment() {
-    var department = connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.id FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id",
+    var department = connection.query("SELECT employee.first_name, employee.last_name, employee.role_id, employee.manager_id, department.id, department.name, FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id",
 
     function(error, department) {
         if (error) throw error
@@ -191,7 +191,7 @@ function viewDepartment() {
 }
 
 function viewRoles() {
-    var roles = connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.d_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN department.id = role.department_id WHERE manager_id",
+    var roles = connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.id, department.name, employee.manager_id AS department, role.title FROM employee LEFT JOIN department.id = role.department_id WHERE manager_id",
     
         function (error, manager) {
             if (err) throw error
@@ -200,7 +200,7 @@ function viewRoles() {
 };
 
 function viewEmployees() {
-    var employees = connection.query("SELECT employee.id,employee.first_name, employee.last_name, department.d_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id",
+    var employees = connection.query("SELECT employee.id,employee.first_name, employee.last_name, department.id, department.name, employee.manager_id AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id",
     
     function (error, manager) {
         if (err) throw err 
