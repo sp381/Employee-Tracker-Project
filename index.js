@@ -50,10 +50,9 @@ function employeeTracker() {
                 employeeTracker();
                 break; 
 
-            // Start new case "Add"
+            // Start new case "Add Department"
             case 'Add A Department':
-                inquirer
-                .prompt ([
+                inquirer.prompt ([
                     {
                         type: 'input',
                         name: 'department',
@@ -72,9 +71,39 @@ function employeeTracker() {
                     employeeTracker();
                 })
                 break;  
-                
+            //Start a new case "Add Role"    
             case 'Add A Role':
-                addRole();
+                inquirer.prompt([
+                    {
+                        type: 'input',
+                        name: 'role',
+                        message: 'Please enter the title role.'
+                        validate: responses => {
+                            if (responses) {
+                                return true;
+                            } else {
+                                console.log('Please enter the title of the new role.');
+                                return false
+                            }
+                        }
+
+                        {
+                            type: 'input',
+                            name: 'salary',
+                            message: 'Please enter their salary.',
+                        },
+
+                        {
+                            type: 'input',
+                            name: 'department_id',
+                            message: 'Please enter the department id.',
+                        }
+                    }
+
+                ]).then(responses => {
+                    addRole(responses.title, responses.salary, responses.department_id);
+                    employeeTracker();
+                })
                 break;
             
             case 'Add An Employee':
