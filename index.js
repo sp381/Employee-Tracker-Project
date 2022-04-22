@@ -86,10 +86,7 @@ function employeeTracker() {
 
             //Start a new case "Add Role"    
             case "Add A Role":
-                // const sql = 'SELECT * FROM department';
-                // connection.query(sql, (err, results) => {
-                //     if(err) throw(err);
-                // })
+
                 inquirer.prompt([
                     {
                         type: 'input',
@@ -181,6 +178,76 @@ function employeeTracker() {
 
 
     });
+}
+
+// View All Departments 
+function viewDepartment() {
+    var department = connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.id FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id",
+
+    function(error, department) {
+        if (error) throw error
+        console.table(department)
+    })
+}
+
+function viewRoles() {
+    var roles = connection.query("SELECT employee.id, employee.first_name, employee.last_name, department.d_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN department.id = role.department_id WHERE manager_id",
+    
+        function (error, manager) {
+            if (err) throw error
+            console.table(roles)
+        })
+};
+
+function viewEmployees() {
+    var employees = connection.query("SELECT employee.id,employee.first_name, employee.last_name, department.d_name, employee.manager_id AS department, role.title FROM employee LEFT JOIN role on role.id = employee.role_id LEFT JOIN department ON department.id = role.department_id WHERE manager_id",
+    
+    function (error, manager) {
+        if (err) throw err 
+        console.table(employees)
+    })
+}
+
+function updateEmployee(employeeRole, employeeId) {
+    var changeUp = connection.query(
+        "UPDATE employee SET manager_id = ? WHERE id = ?",
+        [employeeRole, employeeId],
+        function (err, update) {
+            if (err) throw err
+            console.table(changeUp)
+        })
+}
+
+//Add Employee
+function addEmployee(first_name, last_name, department, manager) {
+    var addEmp = connection.query(
+        "INSERT INTO employee SET first_name = ?, last_name = ?, role_id = ?, manager_id = ?",
+        [first_name, last_name, department, manager],
+        function (err, add) {
+            if(err) throw err
+        })
+    viewEmployees();
+}
+
+function addRole (title, salary, department_id) {
+    var newRole = connection.query(
+        "INSERT INTO role SET title =?, salary = ?, department_id =?",
+        [title, salary, department_id],
+        function (err, newRole) {
+            if (err) throw err
+        })
+    viewRole();
+}
+
+//Update Employee Information
+function updateEmployee (employeeRole, employeeId) {
+    var updateRole = connection.query(
+        "UPDATE employee SET role_id = ? WHERE id = ?",
+        [employeeRole, employeeId],
+        function (error, role) {
+            if (err) throw err
+        })
+    viewDepartment();
 }
 
 
