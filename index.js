@@ -75,7 +75,7 @@ function employeeTracker() {
 
 // View All Departments 
 function viewDept() {
-    var dept = connection.query('SELECT * FROM department', (err, data) => {
+    connection.query('SELECT * FROM department', (err, data) => {
         if (error) throw error
         console.table(dept);
         employeeTracker();
@@ -83,7 +83,7 @@ function viewDept() {
 },
 //View All Roles
 function viewRoles() {
-    var roles = connection.query('SELECT * FROM employee', (err, data) => { 
+    connection.query('SELECT * FROM employee', (err, data) => { 
             if (error) throw error
             console.table(roles)
             employeeTracker();
@@ -91,7 +91,7 @@ function viewRoles() {
 },
 //View All Employees
 function viewEmployees() {
-    var employees = connection.query('SELECT * FROM employee', (err, data) => {
+    connection.query('SELECT * FROM employee', (err, data) => {
         if (error) throw error 
         console.table(employees)
         employeeTracker();
@@ -140,7 +140,12 @@ function addDept() {
 
 //Add An Employee
 function addEmployee(first_name, last_name, department, manager) {
-    inquirer.prompt([
+    const sql = 'SELECT * FROM employee, role';
+    connection.query(sql, (err, results) => {
+        if (error) throw error;
+    
+        inquirer.prompt([
+
         {
             type: 'input',
             name: 'first_name',
@@ -177,28 +182,55 @@ function addEmployee(first_name, last_name, department, manager) {
             }
         )
     });
+})
 });
 
 function addRole (title, salary, department_id) {
-    var newRole = connection.query(
-        "INSERT INTO role SET title =?, salary = ?, department_id =?",
-        [title, salary, department_id],
-        function (err, newRole) {
-            if (err) throw err
-        })
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'role',
+            message: 'Please enter the title of the new role',
+            validate: responses => {
+                if (responses) {
+                    return true;
+                } else {
+                    console.log('Please enter the title of role');
+                }
+            }
+        },
+
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'What is their salary?',
+            validate: responses => {
+                if (responses) {
+                    return true;
+                } else {
+                    console.log('Please enter salary');
+                }
+            },
+        }
+    ])
+    // var newRole = connection.query(
+    //     "INSERT INTO role SET title =?, salary = ?, department_id =?",
+    //     [title, salary, department_id],
+    //     function (err, newRole) {
+    //         if (err) throw err
+    //     })
     viewRole();
 }
 
-//Update Employee Information
-function updateEmployee (employeeRole, employeeId) {
-    var updateRole = connection.query(
-        "UPDATE employee SET role_id = ? WHERE id = ?",
-        [employeeRole, employeeId],
-        function (error, role) {
-            if (err) throw err
-        })
+    //Update Employee Information
+    function updateEmployee (employeeRole, employeeId) {
+        var updateRole = connection.query(
+            "UPDATE employee SET role_id = ? WHERE id = ?",
+            [employeeRole, employeeId],
+            function (error, role) {
+                if (err) throw err
+            })
     viewDepartment();
+    }
 }
-
-
 employeeTracker();
