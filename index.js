@@ -3,23 +3,23 @@ const inquirer = require('inquirer');
 const cTable = require('console.table');
 const util = require("util");
 
-const connection = mysql.createConnection(
-    {
-        host: "localhost",
-        port: 3001,
-        user: "root",
-        password: "root",
-        database: "employee_tracker",
-    },
-);
+// const connection = mysql.createConnection(
+//     {
+//         host: "localhost",
+//         port: 3001,
+//         user: "root",
+//         password: "root",
+//         database: "employee_tracker",
+//     },
+// );
 
-connection.connect((err) => {
-    if(err) throw err;
-    console.log(err);
-    res.status(500);
-    return res.send("There was an error with connecting.");
-    console.log('You successfully connected!');
-});
+// connection.connect((err) => {
+//     if(err) throw err;
+//     console.log(err);
+//     res.status(500);
+//     return res.send("There was an error with connecting.");
+//     console.log('You successfully connected!');
+// });
 
 // Create a function to view, add and update information
 function employeeTracker() { 
