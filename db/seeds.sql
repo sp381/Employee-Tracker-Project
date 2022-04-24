@@ -1,12 +1,12 @@
 USE employee_tracker;
 
-INSERT INTO department(id, name)
+INSERT INTO department(name)
 VALUES 
 ("HR"),
 ("Management"),
 ("Sales Dept");
 
-INSERT INTO role(title, salary, deparment_id)
+INSERT INTO role(title, salary, department_id)
 VALUES
 ("HR Head Rep", 80000, 1),
 ("Customer Service", 50000, 1),
@@ -18,7 +18,6 @@ VALUES
 INSERT INTO employee(first_name, last_name, role_id, manager_id)
 VALUES
 ("Toby", "Flenderson", 1, NULL),
-("Kelly", "Kapoor", 2, 3),
+("Kelly", "Kapoor", 2, 1),
 ("Michael", "Scott", 2, 1),
 ("Dwight", "Schrute", 2, 2);
-("Jim", "Halpert", 3, 2)
