@@ -40,7 +40,7 @@ function employeeTracker() {
         ]
 
     }).then(responses => {
-        switch (responses.action) {
+        switch (responses.Choices) {
             case 'View All Departments':
                 viewDepartment();
                 break;
@@ -72,10 +72,11 @@ function employeeTracker() {
     },
 
     // View All Departments 
-    function viewDept() {
+    function viewDepartment() {
         connection.query('SELECT * FROM department', (err, data) => {
             if (error) throw error
             console.table(dept);
+            //viewDepartment();
             employeeTracker();
         });
     },
