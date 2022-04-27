@@ -2,27 +2,11 @@ const mysql = require('mysql2');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
 const util = require("util");
-
-// const connection = mysql.createConnection(
-//     {
-//         host: "localhost",
-//         port: 3001,
-//         user: "root",
-//         password: "root",
-//         database: "employee_tracker",
-//     },
-// );
-
-// connection.connect((err) => {
-//     if(err) throw err;
-//     console.log(err);
-//     res.status(500);
-//     return res.send("There was an error with connecting.");
-//     console.log('You successfully connected!');
-// });
+const connection = require("./db/connection");
 
 // Create a function to view, add and update information
 function employeeTracker() { 
+    console.log();
     inquirer.prompt({
         type: 'list',
         name: 'Choices',
@@ -40,6 +24,7 @@ function employeeTracker() {
         ]
 
     }).then(responses => {
+        console.log('ldkfj');
         switch (responses.Choices) {
             case 'View All Departments':
                 viewDepartment();
@@ -66,6 +51,7 @@ function employeeTracker() {
                 break;
             
             case 'Exit Program':
+                console.log('whats wrong');
                 connection.end();
                 break;
         };
@@ -233,3 +219,28 @@ function employeeTracker() {
     }
 }
 employeeTracker();
+// View All Departments 
+function viewDepartment() {
+    connection.query('SELECT * FROM department', (err, data) => {
+        if (error) throw error
+        console.table(dept);
+        //viewDepartment();
+        employeeTracker();
+    });
+}
+//View All Roles
+function viewRoles() {
+    connection.query('SELECT * FROM employee', (err, data) => { 
+        if (error) throw error
+        console.table(roles)
+        employeeTracker();
+    });
+}
+//View All Employees
+function viewEmployees() {
+    connection.query('SELECT * FROM employee', (err, data) => {
+        if (error) throw error 
+        console.table(employees)
+        employeeTracker();
+    });
+}
