@@ -24,7 +24,6 @@ function employeeTracker() {
         ]
 
     }).then(responses => {
-        console.log('ldkfj');
         switch (responses.Choices) {
             case 'View All Departments':
                 viewDepartment();
@@ -59,7 +58,7 @@ function employeeTracker() {
 
     // View All Departments 
     function viewDepartment() {
-        connection.query('SELECT * FROM department', (err, data) => {
+        connection.query('SELECT * FROM department', (error, data) => {
             if (error) throw error
             console.table(dept);
             //viewDepartment();
@@ -68,7 +67,7 @@ function employeeTracker() {
     },
     //View All Roles
     function viewRoles() {
-        connection.query('SELECT * FROM employee', (err, data) => { 
+        connection.query('SELECT * FROM employee', (error, data) => { 
             if (error) throw error
             console.table(roles)
             employeeTracker();
@@ -76,22 +75,12 @@ function employeeTracker() {
     },
     //View All Employees
     function viewEmployees() {
-        connection.query('SELECT * FROM employee', (err, data) => {
+        connection.query('SELECT * FROM employee', (error, data) => {
             if (error) throw error 
             console.table(employees)
             employeeTracker();
         });
     },
-
-// function updateEmployee(employeeRole, employeeId) {
-//     var changeUp = connection.query(
-//         "UPDATE employee SET manager_id = ? WHERE id = ?",
-//         [employeeRole, employeeId],
-//         function (err, update) {
-//             if (err) throw err
-//             console.table(changeUp)
-//         })
-// }
 
     //Add A New Department
     function addDept() {
@@ -126,7 +115,7 @@ function employeeTracker() {
     //Add An Employee
     function addEmployee(first_name, last_name, department, manager) {
         const sql = 'SELECT * FROM employee, role';
-        connection.query(sql, (err, results) => {
+        connection.query(sql, (error, results) => {
             if (error) throw error;
     
             inquirer.prompt([
@@ -198,13 +187,7 @@ function employeeTracker() {
                 },
             }
         ])
-    // var newRole = connection.query(
-    //     "INSERT INTO role SET title =?, salary = ?, department_id =?",
-    //     [title, salary, department_id],
-    //     function (err, newRole) {
-    //         if (err) throw err
-    //     })
-        viewRole();
+        addRole();
     }
 
     //Update Employee Information
@@ -215,32 +198,34 @@ function employeeTracker() {
             function (error, role) {
                 if (err) throw err
             })
-    viewDepartment();
+    updateEmployee();
     }
 }
-employeeTracker();
+
 // View All Departments 
 function viewDepartment() {
-    connection.query('SELECT * FROM department', (err, data) => {
+    connection.query('SELECT * FROM department', (error, data) => {
         if (error) throw error
-        console.table(dept);
+        console.table(data);
         //viewDepartment();
         employeeTracker();
     });
 }
 //View All Roles
 function viewRoles() {
-    connection.query('SELECT * FROM employee', (err, data) => { 
+    connection.query('SELECT * FROM employee', (error, data) => { 
         if (error) throw error
-        console.table(roles)
+        console.table(data)
         employeeTracker();
     });
 }
 //View All Employees
 function viewEmployees() {
-    connection.query('SELECT * FROM employee', (err, data) => {
+    connection.query('SELECT * FROM employee', (error, data) => {
         if (error) throw error 
-        console.table(employees)
+        console.table(data)
         employeeTracker();
     });
 }
+
+employeeTracker();

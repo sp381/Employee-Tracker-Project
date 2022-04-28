@@ -1,8 +1,10 @@
 const mysql = require('mysql2');
+require('dotenv').config();
+
 const connection = mysql.createConnection(
     {
         host: "localhost",
-        port: 3001,
+        port: 3306,
         user: "root",
         password: "root",
         database: "employee_tracker",
@@ -12,9 +14,6 @@ const connection = mysql.createConnection(
 connection.connect((err) => {
     console.log('sdf');
     if(err) throw err;
-    console.log(err);
-    res.status(500);
-    return res.send("There was an error with connecting.");
 });
 
 module.exports = connection 
