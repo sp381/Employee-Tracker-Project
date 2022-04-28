@@ -3,13 +3,13 @@ const inquirer = require('inquirer');
 const cTable = require('console.table');
 const util = require("util");
 const connection = require("./db/connection");
-
+const departments = []
 // Create a function to view, add and update information
 function employeeTracker() { 
     console.log();
     inquirer.prompt({
         type: 'list',
-        name: 'Choices',
+        name: 'choices',
         message: 'Choose from the Following Options: ',
         choices: [
             'View All Departments',
@@ -24,7 +24,7 @@ function employeeTracker() {
         ]
 
     }).then(responses => {
-        switch (responses.Choices) {
+        switch (responses.choices) {
             case 'View All Departments':
                 viewDepartment();
                 break;
@@ -37,19 +37,19 @@ function employeeTracker() {
                 viewEmployees();
                 break; 
 
-            case 'Add New Department':
+            case 'Add A Department':
                 addDept();
                 break;
             
-            case 'Add New Role':
+            case 'Add A Role':
                 addRole();
                 break    
             
-            case 'Add New Employee':
+            case 'Add An Employee':
                 newEmp();
                 break;
             
-            case 'Exit Program':
+            case 'Exit':
                 console.log('whats wrong');
                 connection.end();
                 break;
@@ -104,7 +104,7 @@ function employeeTracker() {
                     name: responses.department
                 },
                 (error) => {
-                    if (err) throw err;
+                    if (error) throw error;
                     console.log('New Department ${responses.department} added!');
                     employeeTracker();  
                 }
@@ -150,7 +150,7 @@ function employeeTracker() {
                     name: responses.employee
                 },
                 (error) => {
-                    if (err) throw err;
+                    if (error) throw error;
                     console.log('New employee ${responses.employee} added!');
                     employeeTracker();
                     }
@@ -160,6 +160,7 @@ function employeeTracker() {
     });
 
     function addRole (title, salary, department_id) {
+        console.log('add role');
         inquirer.prompt([
             {
                 type: 'input',
@@ -186,8 +187,22 @@ function employeeTracker() {
                     }
                 },
             }
-        ])
-        addRole();
+        ]).then((responses) => {
+            connection.query(
+                `INSERT INTO role SET ?`,
+                {
+                    name: responses.role
+                },
+                (error) => {
+                    if (error) throw error;
+                    console.log('New role ${responses.role} added!');
+                    employeeTracker();
+                    }
+
+            )  
+            //connection.query(query, responses.role)  
+        })
+        //addRole();
     }
 
     //Update Employee Information
@@ -227,5 +242,16 @@ function viewEmployees() {
         employeeTracker();
     });
 }
-
+function populate() {
+    departments.length = 0
+    connection.query('SELECT name FROM department', (error, data) => {
+        if (error) throw error
+        for (let i = 0; i < data.length; i++) {
+            departments.push(data[i].name);
+            
+        }
+        console.log(departments);
+    })
+}
+populate();
 employeeTracker();
