@@ -162,8 +162,12 @@ function addEmployee(first_name, last_name, department, manager) {
   });
 }
 
-function addRole(title, salary, department_id) {
+function addRole() {
   console.log("add role");
+  const departmentChoices = departmentIds.map(({ id, name }) => ({
+    name: name,
+    value: id
+  }));
   inquirer
     .prompt([
       {
@@ -196,7 +200,7 @@ function addRole(title, salary, department_id) {
         type: "list",
         name: "department",
         message: "What department does this role belong to?",
-        choices: departments,
+        choices: departmentChoices,
         validate: (responses) => {
           if (responses) {
             return true;
@@ -211,9 +215,9 @@ function addRole(title, salary, department_id) {
       connection.query(
         `INSERT INTO role SET ?`,
         {
-          role: responses.role,
+          title: responses.role,
           salary: responses.salary,
-          department: responses.department,
+          department_id: responses.department,
         },
         (error) => {
           if (error) throw error;
@@ -261,6 +265,8 @@ function viewEmployees() {
     employeeTracker();
   });
 }
+const departmentIds = []
+
 function populate() {
   departments.length = 0;
   connection.query("SELECT name FROM department", (error, data) => {
@@ -269,6 +275,14 @@ function populate() {
       departments.push(data[i].name);
     }
     console.log(departments);
+  });
+  departmentIds.length = 0;
+  connection.query("SELECT * FROM department", (error, data) => {
+    if (error) throw error;
+    for (let i = 0; i < data.length; i++) {
+      departmentIds.push(data[i]);
+    }
+    console.log(departmentIds);
   });
 }
 populate();
