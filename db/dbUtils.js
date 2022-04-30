@@ -1,6 +1,6 @@
 // View All Departments 
 function viewDepartment() {
-    connection.query('SELECT * FROM department', (err, data) => {
+    connection.query('SELECT * FROM department', (error, data) => {
         if (error) throw error
         console.table(dept);
         //viewDepartment();
@@ -9,7 +9,7 @@ function viewDepartment() {
 }
 //View All Roles
 function viewRoles() {
-    connection.query('SELECT * FROM employee', (err, data) => { 
+    connection.query('SELECT * FROM employee', (error, data) => { 
         if (error) throw error
         console.table(roles)
         employeeTracker();
@@ -17,7 +17,7 @@ function viewRoles() {
 }
 //View All Employees
 function viewEmployees() {
-    connection.query('SELECT * FROM employee', (err, data) => {
+    connection.query('SELECT * FROM employee', (error, data) => {
         if (error) throw error 
         console.table(employees)
         employeeTracker();
