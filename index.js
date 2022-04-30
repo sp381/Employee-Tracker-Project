@@ -115,50 +115,50 @@ function addDept() {
 }
 
 //Add An Employee
-function addEmployee(first_name, last_name, department, manager) {
+function newEmp(first_name, last_name, department, manager) {
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        name: "first_name",
+        message: "Please enter the employee's first name",
+      },
+
+      {
+        type: "input",
+        name: "last_name",
+        message: "Please enter the employee's last name",
+      },
+
+      {
+        type: "input",
+        name: "role_id",
+        message: "Please enter the Employee's role ID",
+      },
+
+      {
+        type: "input",
+        name: "manager_id",
+        message: "Please enter the empployee's manager id",
+      },
+    ])
+    .then((responses) => {
+      connection.query(
+        "INSERT INTO employee SET ?",
+        {
+          name: responses.employee,
+        },
+        (error) => {
+          if (error) throw error;
+          console.log("New employee ${responses.employee} added!");
+          employeeTracker();
+        }
+      );
+    });
   const sql = "SELECT * FROM employee, role";
   connection.query(sql, (error, results) => {
     if (error) throw error;
-
-    inquirer
-      .prompt([
-        {
-          type: "input",
-          name: "first_name",
-          message: "Please enter the employee's first name",
-        },
-
-        {
-          type: "input",
-          name: "last_name",
-          message: "Please enter the employee's last name",
-        },
-
-        {
-          type: "input",
-          name: "role_id",
-          message: "Please enter the Employee's role ID",
-        },
-
-        {
-          type: "input",
-          name: "manager_id",
-          message: "Please enter the empployee's manager id",
-        },
-      ])
-      .then((responses) => {
-        connection.query(
-          "INSERT INTO employee SET ?",
-          {
-            name: responses.employee,
-          },
-          (error) => {
-            if (error) throw error;
-            console.log("New employee ${responses.employee} added!");
-            employeeTracker();
-          }
-        );
-      });
+    console.table(results);
   });
 }
 
@@ -166,7 +166,7 @@ function addRole() {
   console.log("add role");
   const departmentChoices = departmentIds.map(({ id, name }) => ({
     name: name,
-    value: id
+    value: id,
   }));
   inquirer
     .prompt([
@@ -209,7 +209,6 @@ function addRole() {
           }
         },
       },
-
     ])
     .then((responses) => {
       connection.query(
@@ -221,7 +220,8 @@ function addRole() {
         },
         (error) => {
           if (error) throw error;
-          console.log("New role ${responses.role} added!");
+          console.log(`New role ${responses.role} added!`);
+          viewRoles();
           employeeTracker();
         }
       );
@@ -251,7 +251,7 @@ function viewDepartment() {
 }
 //View All Roles
 function viewRoles() {
-  connection.query("SELECT * FROM employee", (error, data) => {
+  connection.query("SELECT * FROM role", (error, data) => {
     if (error) throw error;
     console.table(data);
     employeeTracker();
@@ -265,7 +265,9 @@ function viewEmployees() {
     employeeTracker();
   });
 }
-const departmentIds = []
+const departmentIds = [];
+const employeeIds = [];
+const roleIds = [];
 
 function populate() {
   departments.length = 0;
@@ -283,6 +285,15 @@ function populate() {
       departmentIds.push(data[i]);
     }
     console.log(departmentIds);
+  });
+ //do the same with role and employee's arrays 
+  employeeIds.length = 0;
+  connection.query("SELECT * FROM employee", (error, data) => {
+    if (error) throw error;
+    for (let i = 0; i < data.length; i++) {
+      employeeIds.push(data[i]);
+    }
+    console.log(employeeIds);
   });
 }
 populate();
