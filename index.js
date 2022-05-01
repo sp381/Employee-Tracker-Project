@@ -265,9 +265,9 @@ function viewEmployees() {
     employeeTracker();
   });
 }
-const departmentIds = [];
-const employeeIds = [];
-const roleIds = [];
+   const departmentIds = [];
+// const employeeIds = [];
+// const roleIds = [];
 
 function populate() {
   departments.length = 0;
@@ -286,15 +286,24 @@ function populate() {
     }
     console.log(departmentIds);
   });
- //do the same with role and employee's arrays 
-  employeeIds.length = 0;
-  connection.query("SELECT * FROM employee", (error, data) => {
-    if (error) throw error;
-    for (let i = 0; i < data.length; i++) {
-      employeeIds.push(data[i]);
-    }
-    console.log(employeeIds);
-  });
-}
+//  //do the same with role and employee's arrays 
+//   employeeIds.length = 0;
+//   connection.query("SELECT * FROM employee", (error, data) => {
+//     if (error) throw error;
+//     for (let i = 0; i < data.length; i++) {
+//       employeeIds.push(data[i]);
+//     }
+//     console.log(employeeIds);
+//   });
+
+//   roleIds.length = 0;
+//   connection.query("SELECT name FROM role", (error, data) => {
+//     if (error) throw error;
+//     for (let i = 0; i < data.length; i++) {
+//         roleIds.push(data[i]);
+//     }
+//     console.log(roleIds);
+//   });
+};
 populate();
 employeeTracker();
