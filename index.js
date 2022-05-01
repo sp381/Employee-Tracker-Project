@@ -115,7 +115,8 @@ function addDept() {
 }
 
 //Add An Employee
-function newEmp(first_name, last_name, department, manager) {
+function newEmp() {
+
   inquirer
     .prompt([
       {
@@ -146,7 +147,10 @@ function newEmp(first_name, last_name, department, manager) {
       connection.query(
         "INSERT INTO employee SET ?",
         {
-          name: responses.employee,
+          first_name: responses.first_name,
+          last_name: responses.last_name,
+          role_id: responses.role_id,
+          manager_id: responses.manager_id,
         },
         (error) => {
           if (error) throw error;
