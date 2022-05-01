@@ -18,4 +18,4 @@ SO THAT I can organize and plan my business
 ## View the Challenge:
 
 GitHub: https://github.com/sp381/Employee-Tracker-Project 
-Screencastify: 
+Screencastify: https://drive.google.com/file/d/1vNAm1ZIr-uPgSRmC9cu9x84W-y996ef_/view 
